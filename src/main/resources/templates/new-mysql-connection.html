@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Database parameters</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <h1>Password</h1>
+        <form action="/new-mysql-connection" method="post">
+            <input type="text" name="username" placeholder="Enter username" value="root" ><br>
+            <input type="text" name="password" placeholder="Enter password" value="root"><br>
+            <input type="text" name="db_name" placeholder="Enter db_name" value="jdbc:mysql://localhost:8889/mydb"><br><br>
+            <button type="submit">Send password</button><br>
+        </form>
+    </div>
+</body>
+</html>

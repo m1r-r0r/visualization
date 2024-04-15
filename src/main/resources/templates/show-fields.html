@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+    table, th, td {border: 1px solid black;}
+</style>
+<head>
+    <title>Show entries</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <form name="columns" method="post">
+        <table>
+            <tr>
+                <th>Column name</th>
+                <th>Column type</th>
+                <th th:each="row : ${rowsExample}">Row example</th>
+                <th>Select column</th>
+            </tr>
+            <tr th:each="columnNumber : ${columnCounter}">
+                <td th:text = "${columnsName[__${columnNumber}__]}"></td>
+                <td th:text = "${columnsType[__${columnNumber}__]}"></td>
+                <td th:each="row : ${rowsExample}" th:text = "${row[__${columnNumber}__]}"></td>
+                <td>
+                    <input type="checkbox" th:name="column" th:value="${columnsName[__${columnNumber}__]}" checked>
+                </td>
+            </tr>
+        </table><br>
+        <input type="submit" value="Ok">
+    </form>
+</body>
+</html>

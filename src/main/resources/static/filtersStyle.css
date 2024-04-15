@@ -1,0 +1,63 @@
+.new-filter-button {
+     background: #CD5C5C;
+     float:left;
+     width: 70%;
+     padding-left:10px;
+     padding-top:2px;
+     padding-bottom:2px;
+     margin-left: 20px;
+     margin-top: 10px;
+}
+.filter {
+     background: #E9967A;
+     float:left;
+     width: 70%;
+     padding-left:10px;
+     padding-top:2px;
+     padding-bottom:2px;
+     margin-left: 20px;
+     margin-top: 10px;
+}
+
+#add-filter {
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    width:200px;
+    padding: 20px;
+    background-color: #FFF;
+    border: solid;
+    border-color: #191970;
+}
+#column-filter {
+    float:left;
+    width: 70%;
+    margin: 10px;
+}
+.filtered-values {
+    float:left;
+    margin: 10px;
+    width: 70%;
+}
+
+.negative-button {
+    float:right;
+    margin: 10px;
+    background-color: #DC143C;
+}
+.positive-button {
+    float:left;
+    margin: 10px;
+    background-color: #228B22;
+}
+
+#change-filter {
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    width:200px;
+    padding: 20px;
+    background-color: #FFF;
+    border: solid;
+    border-color: #191970;
+}

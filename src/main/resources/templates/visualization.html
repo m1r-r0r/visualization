@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<script src="visualization.js"></script>
+
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<!--0-------------------------------------------------------------------------------------------------------------0-->
+<script th:utext="${jsChartCode}"></script>
+<!--0-------------------------------------------------------------------------------------------------------------0-->
+<head>
+    <title>Show entries</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="pageStyle.css">
+    <link rel="stylesheet" href="graphStyle.css">
+    <link rel="stylesheet" href="popupsStyle.css">
+    <link rel="stylesheet" href="filtersStyle.css">
+    <link rel="stylesheet" href="updateStyle.css">
+    <link rel="stylesheet" href="fieldsStyle.css">
+    <link rel="stylesheet" href="chart.css">
+</head>
+    <body onload="paramsAfterPost()">
+        <div id="leftBlock">
+            <div id="updateBlock">
+                <br>
+                <label>
+                    Choose graph type:
+                    <select id="graph-type-select" name="graph-type-select">
+                        <option id="line" label="Line"></option>
+                        <option id="column" label="Column"></option>
+                    </select>
+                </label>
+                <button id="update-button" onclick="gatherParams()">Update</button>
+                <form action="/visualization" method="post" hidden>
+                    <input type="text" name="paramsToPost" id="params-to-post" th:value="${paramsToPost}">
+                    <input id="send-post-button" type="submit" value="send-post-button">
+                </form>
+            </div>
+                <div id="filtersBlock">
+                    <button class="new-filter-button" onclick="showElement('add-filter')">Add filter</button>
+                </div>
+            </div>
+        </div>
+        <div id="rightBlock">
+            <div id="measurementsBlock">
+                <button id="add-measurement-button" class="add-fields-button" onclick="showAddFieldPopup(this.id)">Add measurement</button>
+            </div>
+            <div id="measuresBlock">
+                <button id="add-measure-button" class="add-fields-button" onclick="showAddFieldPopup(this.id)">Add measure</button>
+            </div>
+            <div id="chartdiv">
+
+            </div>
+        </div>
+        <div id="add-filter" hidden>
+            <select id="column-filter" name="columnFilter">
+                <option th:each="selectedColumn : ${selectedColumnNames}"
+                        th:id="${selectedColumn}"
+                        th:label="${selectedColumn}"></option>
+            </select>
+            <button id="add-filter-cancel-button" class="negative-button" onclick="hideElement('add-filter')">Cancel</button>
+            <button id="add-filter-ok-button" class="positive-button" onclick="addFilter()">Add</button>
+        </div>
+        <div id="change-filter" hidden>
+            <div id="change-filter-id-paragraph"></div>
+            <input id="min-value" class="filtered-values" type="text" name="min_value" placeholder="Enter min value">
+            <input id="max-value" class="filtered-values" type="text" name="max_value" placeholder="Enter max value">
+            <button id="add-filter-save-button" class="positive-button" onclick="saveFilterChanges()">Save</button>
+            <button id="add-filter-delete-button" class="negative-button" onclick="deleteFilter()">Delete</button>
+        </div>
+        <div id="add-field" hidden>
+            <div id="add-field-id-paragraph"></div>
+            <select id="column-field" name="columnFilter">
+                <option th:each="selectedColumn : ${selectedColumnNames}"
+                        th:id="${selectedColumn}"
+                        th:label="${selectedColumn}"></option>
+            </select>
+            <button id="add-field-cancel-button" class="negative-button" onclick="hideElement('add-field')">Cancel</button>
+            <button id="add-field-ok-button" class="positive-button" onclick="addField()">Add</button>
+        </div>
+        <div id="change-field" hidden>
+            <div id="change-field-id-paragraph" data-field-type="" data-field-id=""></div>
+            <label id="label-for-change-field-lead-checkbox" for="change-field-lead-checkbox">
+                Set as lead measure
+                <input id="change-field-lead-checkbox" type="checkbox">
+            </label>
+            <button id="change-field-save-button" class="positive-button" onclick="saveFieldChanges()">Save</button>
+            <button id="change-field-delete-button" class="negative-button" onclick="deleteField()">Delete</button>
+        </div>
+    <div id="test"></div>
+    </body>
+</html>

@@ -1,0 +1,9 @@
+
+#graphBlock .legend {
+    flex-shrink: 3;
+    width: 200px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+

@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Show entries</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <form class="container mt-5 mb-5">
+        <label for="tables">Choose table</label>
+        <select id="tables" name="tables" >
+            <option th:each="tableName : ${tableList}" th:value="${tableName}" th:label="${tableName}"></option>
+        </select>
+        <input type="submit" value="Ok">
+    </form>
+</body>
+</html>
