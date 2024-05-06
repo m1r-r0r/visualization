@@ -3,6 +3,9 @@ package com.github.m1rr0r.visualization.controllers;
 import com.github.m1rr0r.visualization.dataStructure.Column;
 import com.github.m1rr0r.visualization.services.postParsing.SelectedColumnsGenerator;
 import com.github.m1rr0r.visualization.sourcesConnections.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static com.github.m1rr0r.visualization.controllers.ChartDataController.selectedColumnsGenerator;
-
 @Controller
+@Lazy
 public class ColumnsController {
-    public static DataSource initDataSource;
-
+    @Autowired
+    @Qualifier("initDataSource")
+    private DataSource initDataSource;
+    @Autowired
+    private SelectedColumnsGenerator selectedColumnsGenerator;
 
     @GetMapping("/show-fields")
     public String showFields(Model model) throws SQLException, ClassNotFoundException, IOException {
@@ -50,8 +55,6 @@ public class ColumnsController {
 
     @PostMapping("/show-fields")
     public String getSelectedColumns(@RequestBody String selectedColumns, Model model) {
-        selectedColumnsGenerator = new SelectedColumnsGenerator();
-        selectedColumnsGenerator = new SelectedColumnsGenerator();
         selectedColumnsGenerator.setSelectedColumns(selectedColumns);
         return "redirect:/visualization";
     }

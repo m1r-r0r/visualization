@@ -1,7 +1,12 @@
 package com.github.m1rr0r.visualization.sourcesConnections.jdbc;
 
 import com.github.m1rr0r.visualization.sourcesConnections.ConnectionParams;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
+@Component
+@Lazy
 public class MysqlConnectionParams extends ConnectionParams {
     private String DBNAME;
     private String USERNAME;

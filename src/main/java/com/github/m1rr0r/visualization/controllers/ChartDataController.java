@@ -5,7 +5,8 @@ import com.github.m1rr0r.visualization.services.chartScript.ChartDataGenerator;
 import com.github.m1rr0r.visualization.services.chartScript.ChartScriptGenerator;
 import com.github.m1rr0r.visualization.services.postParsing.ChartParamsGenerator;
 import com.github.m1rr0r.visualization.services.postParsing.SelectedColumnsGenerator;
-import com.github.m1rr0r.visualization.sourcesConnections.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,28 +16,24 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @Controller
+@Lazy
 public class ChartDataController {
-    public static DataSource chartDataSource;
+    @Autowired
     private ChartParamsGenerator chartParamsGenerator;
-    public static ChartColumns chartColumns;
-    public static SelectedColumnsGenerator selectedColumnsGenerator;
+    @Autowired
+    public SelectedColumnsGenerator selectedColumnsGenerator;
+    @Autowired
     private ChartDataGenerator chartDataGenerator;
+    @Autowired
     private ChartScriptGenerator chartScriptGenerator;
 
     @PostMapping("/visualization")
     public String sendDataToChart(Model model, @RequestParam String paramsToPost) throws SQLException, ClassNotFoundException, IOException {
-        chartParamsGenerator = new ChartParamsGenerator();
         chartParamsGenerator.generateChartParams(paramsToPost);
-        chartColumns = chartParamsGenerator.getChartColumns();
-        chartDataSource.setChartColumns(chartColumns);
-        chartDataSource.open();
-
-        chartDataGenerator = new ChartDataGenerator();
+        ChartColumns chartColumns = chartParamsGenerator.getChartColumns();
         chartDataGenerator.setChartColumns(chartColumns);
-        chartDataGenerator.setDataSource(chartDataSource);
         chartDataGenerator.generateData();
 
-        chartScriptGenerator = new ChartScriptGenerator();
         chartScriptGenerator.setChartColumns(chartColumns);
         chartScriptGenerator.setChartType(chartParamsGenerator.getChartType());
         chartScriptGenerator.setChartData(chartDataGenerator.getChartData());
@@ -46,7 +43,6 @@ public class ChartDataController {
         model.addAttribute("jsChartCode", chartScriptGenerator.getChartScript());
         model.addAttribute("paramsToPost", paramsToPost);
         model.addAttribute("selectedColumnNames", selectedColumnsGenerator.getSelectedColumnNames());
-        chartDataSource.close();
         return "visualization";
     }
 }

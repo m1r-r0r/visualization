@@ -6,9 +6,11 @@ import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.sqlTransf
 import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.sqlTransforms.FilterSqlTransform;
 import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.sqlTransforms.MeasureSqlTransform;
 import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.sqlTransforms.MeasurementSqlTransform;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+@Component
 public class RequestChartData extends Request {
     private ChartColumns chartColumns;
     private String tableName;

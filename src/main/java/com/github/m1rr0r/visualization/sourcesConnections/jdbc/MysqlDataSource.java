@@ -4,6 +4,12 @@ import com.github.m1rr0r.visualization.dataStructure.ChartColumns;
 import com.github.m1rr0r.visualization.dataStructure.Column;
 import com.github.m1rr0r.visualization.sourcesConnections.DataSource;
 import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.Request;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.sql.*;
@@ -12,6 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
+
+@Component("mysqlDataSource")
+@Lazy
 public class MysqlDataSource implements DataSource {
     private MysqlConnection connection;
     private Request request;

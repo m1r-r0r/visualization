@@ -1,10 +1,12 @@
 package com.github.m1rr0r.visualization.services.chartScript;
 
 import com.github.m1rr0r.visualization.dataStructure.ChartColumns;
+import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.Set;
 
+@Component
 public class ChartScriptGenerator {
     private String chartScript;
     private String chartData;

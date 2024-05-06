@@ -1,16 +1,31 @@
 package com.github.m1rr0r.visualization.sourcesConnections.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.io.Closeable;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@Component
+//@Scope("prototype")
 public class MysqlConnection implements Closeable {
+    @Autowired
+    @Lazy
     private MysqlConnectionParams connectionParams;
     private Connection connection;
 
+    @Autowired
+    @Lazy
     public void setConnectionParams(MysqlConnectionParams connectionParams) {
         this.connectionParams = connectionParams;
+    }
+
+    public MysqlConnectionParams getConnectionParams() {
+        return connectionParams;
     }
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {

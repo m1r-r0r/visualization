@@ -1,17 +1,21 @@
 package com.github.m1rr0r.visualization.services.postParsing;
 
 import com.github.m1rr0r.visualization.dataStructure.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class ChartParamsGenerator {
     private String chartType;
+    @Autowired
     private ChartColumns chartColumns;
 
     public void generateChartParams(String postChartColumns) {
-        chartColumns = new ChartColumns();
+//        chartColumns = new ChartColumns();
         String[] documentBlocks = postChartColumns.split("&block=");
 
         chartType = documentBlocks[1].split("&el=")[1].split("&attr=")[1];

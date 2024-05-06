@@ -1,8 +1,10 @@
 package com.github.m1rr0r.visualization.dataStructure;
 
-import java.util.ArrayList;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class ChartColumns {
     private List<AggregationColumn> aggregationColumns;
     private CategoryColumn categoryColumn;
@@ -10,14 +12,10 @@ public class ChartColumns {
     private MeasureColumn measureColumn;
     private MeasurementColumn measurementColumn;
 
-    public ChartColumns() {
-        this.aggregationColumns = new ArrayList<>();
-        this.filterColumns = new ArrayList<>();
-    }
-
     public void setAggregationColumns(List<AggregationColumn> aggregationColumns) {
         this.aggregationColumns = aggregationColumns;
     }
+
     public void setCategoryColumn(CategoryColumn categoryColumn) {
         this.categoryColumn = categoryColumn;
     }

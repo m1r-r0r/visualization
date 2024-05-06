@@ -1,9 +1,13 @@
 package com.github.m1rr0r.visualization.controllers;
 
 import com.github.m1rr0r.visualization.sourcesConnections.jdbc.MysqlConnection;
-import com.github.m1rr0r.visualization.sourcesConnections.jdbc.MysqlConnectionParams;
 import com.github.m1rr0r.visualization.sourcesConnections.jdbc.MysqlDataSource;
-import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.*;
+import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.RequestChartData;
+import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.RequestSourceTables;
+import com.github.m1rr0r.visualization.sourcesConnections.jdbc.request.RequestTableRows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,31 +18,27 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static com.github.m1rr0r.visualization.controllers.ChartDataController.chartDataSource;
-import static com.github.m1rr0r.visualization.controllers.ColumnsController.initDataSource;
-
 @Controller
+@Lazy
 public class DataSourceController {
-    private MysqlConnectionParams connectionParams;
     private RequestChartData requestChartData;
+    @Autowired
+    private MysqlConnection connection;
+    @Autowired
+    @Qualifier("initDataSource")
+    private MysqlDataSource initDataSource;
+    @Autowired
+    @Qualifier("chartDataSource")
+    private MysqlDataSource chartDataSource;
 
     @GetMapping("/new-mysql-connection")
     public String newMysqlConnection() {
-        MysqlConnection connection = new MysqlConnection();
-        connectionParams = new MysqlConnectionParams();
-        connection.setConnectionParams(connectionParams);
-
-        //tables & fields select dataSource
-        initDataSource = new MysqlDataSource();
-        ((MysqlDataSource)initDataSource).setConnection(connection);
-        ((MysqlDataSource)initDataSource).setRequest(new RequestSourceTables());
-
-        //chartData dataSet
+        initDataSource.setConnection(connection);
+        initDataSource.setRequest(new RequestSourceTables());
         requestChartData = new RequestChartData();
 
-        chartDataSource = new MysqlDataSource();
-        ((MysqlDataSource)chartDataSource).setRequest(requestChartData);
-        ((MysqlDataSource)chartDataSource).setConnection(connection);
+        chartDataSource.setRequest(requestChartData);
+        chartDataSource.setConnection(connection);
         return "new-mysql-connection";
     }
 
@@ -46,9 +46,9 @@ public class DataSourceController {
     public String setMysqlConnection(@RequestParam String password,
                                 @RequestParam String username,
                                 @RequestParam String db_name) {
-        connectionParams.setPASSWORD(password);
-        connectionParams.setUSERNAME(username);
-        connectionParams.setDBNAME(db_name);
+        connection.getConnectionParams().setPASSWORD(password);
+        connection.getConnectionParams().setUSERNAME(username);
+        connection.getConnectionParams().setDBNAME(db_name);
         return "redirect:/show-mysql-tables";
     }
 
@@ -60,14 +60,13 @@ public class DataSourceController {
             RequestTableRows requestTableRows = new RequestTableRows();
             requestTableRows.setRowsLimit(2);
             requestTableRows.setTableName(tables);
-            ((MysqlDataSource)initDataSource).setRequest(requestTableRows);
-            //initDataSource.initDataSource();
+            initDataSource.setRequest(requestTableRows);
             return "redirect:/show-fields";
         }
         ArrayList<String> tableList = new ArrayList<>();
         initDataSource.open();
         while(initDataSource.getNextRow()) {
-            tableList.add( ((MysqlDataSource) initDataSource).getColumnValue(1));
+            tableList.add(initDataSource.getColumnValue(1));
         }
         model.addAttribute("tableList", tableList);
         initDataSource.close();
